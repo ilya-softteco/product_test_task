@@ -33,18 +33,17 @@ class ProductServices
         //return Product::all();
     }
 
-    function findOne(int $id, ?bool $full = false)
+    function findOne(int $id, ?string $full = "false")
     {
-        $data_product = Product::
+        $dataProduct = Product::
         where('id', $id)
             ->get();
 
-        $data_product[0]['price_with_VAT'] = $this->priceVAT($data_product[0]['price'], $data_product[0]['VAT']);
-
-        if (!empty($full)) {
-            return ProductResourceFull::collection($data_product);
+        if ($full == "true") {
+            $dataProduct[0]['price_with_VAT'] = $this->priceVAT($dataProduct[0]['price'], $dataProduct[0]['VAT']);
+            return ProductResourceFull::collection($dataProduct);
         }
-        return ProductResource::collection($data_product);
+        return ProductResource::collection($dataProduct);
     }
 
     public function create(ProductStoreRequest $request)
@@ -60,7 +59,7 @@ class ProductServices
 
     }
 
-    private function priceVAT($price, $vat)
+    private function priceVAT(float $price, float $vat): float
     {
         $priceVAT = ($price) + (($price * $vat) / 100);
         $priceVAT = round($priceVAT, 2);

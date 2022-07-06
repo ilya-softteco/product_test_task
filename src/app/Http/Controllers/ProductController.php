@@ -49,6 +49,7 @@ class ProductController extends Controller
     {
         $id = $product['id'];
         $full = $request->query('full');
+
         return $this->productServices->findOne($id,$full);
     }
 
