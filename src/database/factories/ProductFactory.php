@@ -17,11 +17,12 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $category = ['phone','TV','computer'];
         return [
             'name' => fake()->name(),
             'price' => fake()->randomFloat(null,1,10000),
             'VAT' => fake()->randomFloat(null , 1, 25),
-            'category' => fake()->name(),
+            'category' => $category[array_rand($category)],
             'description' => fake()->paragraph(3),
         ];
     }
